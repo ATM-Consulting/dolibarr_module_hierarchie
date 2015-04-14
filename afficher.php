@@ -268,7 +268,13 @@ function afficherUtilisateurGroupe(&$ATMdb, $nomGroupe){
 
 <form id="form" action="afficher.php?id=<?= $userCourant->id; ?>" method="get">
 	<select id="choixAffichage" name="choixAffichage">
-		<option value="entreprise">Afficher la hiérarchie de l'entreprise</option>
+	    <?php
+	    
+	    if($user->rights->rhhierarchie->viewall) {
+	       ?><option value="entreprise">Afficher la hiérarchie de l'entreprise</option><?php    
+        }
+		
+        ?>
 		<option value="equipe">Afficher son équipe</option>
 		<?php
 			afficherGroupes($ATMdb);
@@ -283,7 +289,6 @@ function afficherUtilisateurGroupe(&$ATMdb, $nomGroupe){
 
 if($orgChoisie=="entreprise"){	//on affiche l'organigramme de l'entreprise 
 ///////////////////////////////ORGANIGRAMME ENTREPRISE
-
 
 	$socName = empty($conf->global->MAIN_INFO_SOCIETE_LOGO_MINI) ? $conf->global->MAIN_INFO_SOCIETE_NOM : '<img src="'.DOL_URL_ROOT.'/viewimage.php?cache=1&amp;modulepart=companylogo&amp;file='.urlencode('thumbs/'.$conf->global->MAIN_INFO_SOCIETE_LOGO_MINI).'" />';
 	//print_r($conf->global);
@@ -364,7 +369,7 @@ if($orgChoisie=="entreprise"){	//on affiche l'organigramme de l'entreprise
 		<?php 	
 			$ATMdb=new TPDOdb;
 			//on affiche les utilisateurs du groupe en cours
-		 	afficherUtilisateurGroupe($ATMdb,$orgChoisie);
+		    if($conf->valideur->enabled)afficherUtilisateurGroupe($ATMdb,$orgChoisie);
 			$ATMdb->close();
 		?>
 			</li>

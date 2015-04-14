@@ -53,7 +53,7 @@ class modRHHierarchie extends DolibarrModules
 
 		// Id for module (must be unique).
 		// Use here a free id (See in Home -> System information -> Dolibarr for list of used modules id).
-		$this->numero = 7200;
+		$this->numero = 104510;
 		// Key text used to identify module (for permissions, menus, etc...)
 		$this->rights_class = 'rhhierarchie';
 
@@ -132,8 +132,9 @@ class modRHHierarchie extends DolibarrModules
 		// 'group'            to add a tab in group view
 		// 'contact'          to add a tab in contact view
 		// 'categories_x'	  to add a tab in category view (replace 'x' by type of category (0=product, 1=supplier, 2=customer, 3=member)
-        $this->tabs = array('user:+hierarchie:Organigramme:hierarchie@hierarchie:/hierarchie/afficher.php?id=__ID__' // To add a new tab identified by code tabname1
-                                    );
+        $this->tabs = array(
+            'user:+hierarchie:Organigramme:hierarchie@hierarchie:$user->rights->rhhierarchie->view:/hierarchie/afficher.php?id=__ID__' // To add a new tab identified by code tabname1
+        );
 
         
         /* Example:
@@ -166,18 +167,23 @@ class modRHHierarchie extends DolibarrModules
 
 		
 		// Permissions
-		/*$this->rights = array();		// Permission array used by this module
+		$this->rights = array();		// Permission array used by this module
 		$r=0;
-		$this->rights[$r][0] = 7201;
-		$this->rights[$r][1] = 'Afficher sa hiérarchie';
-		$this->rights[$r][3] = 1;
-		$this->rights[$r][4] = 'allactions';
-		$this->rights[$r][5] = 'afficher';
-		$r++;
+        $this->rights[$r][0] = 104510+$r;
+        $this->rights[$r][1] = 'Afficher la hiérarchie entreprise';
+        $this->rights[$r][3] = 0;
+        $this->rights[$r][4] = 'view';
+        $r++;
+
+        $this->rights[$r][0] = 104510+$r;
+        $this->rights[$r][1] = 'Afficher la hiérarchie  de toute l\'entreprise';
+        $this->rights[$r][3] = 0;
+        $this->rights[$r][4] = 'viewall';
+        $r++;
 
 		// Main menu entries
 		$this->menu = array();			// List of menus to add
-		$r=0;*/
+		$r=0;
 
 		// Add here entries to declare new menus
 		//
