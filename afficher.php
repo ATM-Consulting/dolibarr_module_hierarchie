@@ -39,8 +39,6 @@ if ($user->id == $id)	// A user can always read its own card
 $result = restrictedArea($user, 'user', $id, '&user', $feature2);
 if ($user->id <> $id && ! $canreaduser) accessforbidden();
 
-$dirtop = "../core/menus/standard";
-$dirleft = "../core/menus/standard";
 
 // Charge utilisateur edite
 $fuser = new User($db);
@@ -53,7 +51,7 @@ $arret=0;
 
 $ATMdb=new TPDOdb;
 
-llxHeader('', '', '', '', 0, 0, array('/rhlibrary/jquery.jOrgChart.js'));
+llxHeader('', '', '', '', 0, 0, array('/hierarchie/js/jquery.jOrgChart.js'));
 
 
 ?>
