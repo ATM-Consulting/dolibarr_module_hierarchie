@@ -56,7 +56,7 @@ llxHeader('', '', '', '', 0, 0, array('/hierarchie/js/jquery.jOrgChart.js'));
 
 ?>
 <link rel="stylesheet" type="text/css" href="./css/jquery.jOrgChart.css" />
-<?
+<?php
 
 
 $head = user_prepare_head($fuser);
@@ -74,7 +74,7 @@ dol_fiche_head($head, $current_head, $langs->trans('Utilisateur'),0, 'user');
     });
     </script>
 
-<?
+<?php
 global $user;
 
 $orgChoisie=__get("choixAffichage", 'equipe','string',30);
@@ -103,8 +103,8 @@ function afficherSalarieDessous(&$ATMdb, $idBoss = -1, $niveau=1){
 		
 				global $user, $db, $idUserCourant, $userCourant, $conf;
 				?>
-				<ul id="ul-niveau-<?=$niveau ?>">
-				<?
+				<ul id="ul-niveau-<?php echo $niveau ?>">
+				<?php
 				
 				$sqlReq="SELECT rowid FROM `".MAIN_DB_PREFIX."user` WHERE entity IN (0,".(! empty($conf->multicompany->enabled) && ! empty($conf->multicompany->transverse_mode)?"1,":"").$conf->entity.")";
 				if($idBoss>0)$sqlReq.= " AND fk_user=".$idBoss;
@@ -122,12 +122,12 @@ function afficherSalarieDessous(&$ATMdb, $idBoss = -1, $niveau=1){
 				
 				foreach($Tab as $userid) {
 					?>
-					<li class="utilisateur" rel="<?=$userid ?>"><?
+					<li class="utilisateur" rel="<?php echo $userid ?>"><?php
 					afficherSalarie($ATMdb, $userid);
 					afficherSalarieDessous($ATMdb, $userid,$niveau+1);
-					?></li><?
+					?></li><?php
 				}
-				?></ul><?		
+				?></ul><?php		
 }
 
 //Fonction qui permet d'afficher un salarié
@@ -139,12 +139,12 @@ function afficherSalarie(&$ATMdb, $idUser){
 				$user->fetch($idUser);
  
 					?>
-				<a href="<?=DOL_URL_ROOT ?>/user/fiche.php?id=<?=$user->id ?>"><?=$user->firstname." ".$user->lastname ?></a>
-				<? if(!empty($user->office_phone) || !empty($user->user_mobile)) { ?><div class="tel">Tél. : <?=$user->office_phone.' '.$user->user_mobile ?></div><? }
-				if(!empty($user->email) ) { ?><div class="mail">Email : <a href="mailto:<?=$user->email ?>"><?=$user->email ?></a></div><? }
-				if(!empty($user->job) ) { ?><div><?=$user->job ?></div><? }
+				<a href="<?php echo DOL_URL_ROOT ?>/user/fiche.php?id=<?php echo $user->id ?>"><?php echo $user->firstname." ".$user->lastname ?></a>
+				<?php if(!empty($user->office_phone) || !empty($user->user_mobile)) { ?><div class="tel">Tél. : <?php echo $user->office_phone.' '.$user->user_mobile ?></div><?php }
+				if(!empty($user->email) ) { ?><div class="mail">Email : <a href="mailto:<?php echo $user->email ?>"><?php echo $user->email ?></a></div><?php }
+				if(!empty($user->job) ) { ?><div><?php echo $user->job ?></div><?php }
 			
-				?><?
+				
 		
 }
 
@@ -171,16 +171,16 @@ function afficherGroupeSousValideur(&$ATMdb, $idUser, $fkusergroup, $niveau=1){
 				foreach($Tab as &$user) {
 					
 					?>
-					<li class="utilisateur" rel="<?=$user->id ?>">
-						<a href="<?=DOL_URL_ROOT ?>/user/fiche.php?id=<?=$user->id ?>"><?=$user->firstname." ".$user->lastname ?></a>
-						<? if(!empty($user->office_phone) || !empty($user->user_mobile)) { ?><div class="tel">Tél. : <?=$user->office_phone.' '.$user->user_mobile ?></div><? }
-						if(!empty($user->email) ) { ?><div class="mail">Email : <a href="mailto:<?=$user->email ?>"><?=$user->email ?></div><? }
+					<li class="utilisateur" rel="<?php echo $user->id ?>">
+						<a href="<?php echo DOL_URL_ROOT ?>/user/fiche.php?id=<?php echo $user->id ?>"><?php echo $user->firstname." ".$user->lastname ?></a>
+						<?php if(!empty($user->office_phone) || !empty($user->user_mobile)) { ?><div class="tel">Tél. : <?php echo $user->office_phone.' '.$user->user_mobile ?></div><?php }
+						if(!empty($user->email) ) { ?><div class="mail">Email : <a href="mailto:<?php echo $user->email ?>"><?php echo $user->email ?></div><?php }
 					
-					?><?
+					
 				}
 				print "</ul>";
 				
-				?><?
+				
 }
 
 
@@ -266,7 +266,7 @@ function afficherUtilisateurGroupe(&$ATMdb, $nomGroupe){
 ?>
 
 
-<form id="form" action="afficher.php?id=<?= $userCourant->id; ?>" method="get">
+<form id="form" action="afficher.php?id=<?php echo  $userCourant->id; ?>" method="get">
 	<select id="choixAffichage" name="choixAffichage">
 	    <?php
 	    
@@ -280,7 +280,7 @@ function afficherUtilisateurGroupe(&$ATMdb, $nomGroupe){
 			afficherGroupes($ATMdb);
 		?>
 	</select> 
-	<input  name="id" value="<?=$_REQUEST['id'] ?>" type="hidden" />
+	<input  name="id" value="<?php echo $_REQUEST['id'] ?>" type="hidden" />
 	<input id="validSelect" type="submit" value="Valider" class="button" />
 </form>
 
@@ -303,7 +303,7 @@ if($orgChoisie=="entreprise"){	//on affiche l'organigramme de l'entreprise
 		<div id="chart" class="orgChart" align="center"></div>
 		
 		<ul id="JQorganigramme" style="display:none;">
-			<li><?=$socName ?>
+			<li><?php echo $socName ?>
 		<?php 		
 			$ATMdb=new TPDOdb;
 			afficherSalarieDessous($ATMdb);
@@ -383,7 +383,7 @@ if($orgChoisie=="entreprise"){	//on affiche l'organigramme de l'entreprise
 ?>
 <script>	
 	$(document).ready( function(){
-		$("#choixAffichage option[value='<?= $orgChoisie?>']").attr('selected', 'selected');
+		$("#choixAffichage option[value='<?php echo  $orgChoisie?>']").attr('selected', 'selected');
 		 <?php 
 		 	if($orgChoisie==""){?>
 		 		$('#organigrammeGroupe').hide();
